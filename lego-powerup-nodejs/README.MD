@@ -1,4 +1,7 @@
-# Using Javascript to control lego Control +
+# Using Javascript to control LEGO Control +
+
+This is created for a single hub connection for LEGO Control +. Angular motors however are still not supported.
+The program works with node-powerup.
 
 ## Execution
 
