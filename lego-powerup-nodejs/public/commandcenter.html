@@ -106,7 +106,7 @@
     <script>
       (function(){
         const elem = document.getElementById('s-info')
-        fetch('http://localhost:3001/api/motors')
+        fetch('/api/motors')
           .then(response => response.json())
           .then(data => {
             elem.innerText = JSON.stringify(data)
@@ -149,7 +149,7 @@
         const sDelay = document.getElementById('s-delay')
         const sCallback = document.getElementById('s-callback')
 
-        fetch('http://localhost:3001/api/motors/trigger', {
+        fetch('/api/motors/trigger', {
           method: 'post',
           body: JSON.stringify(
             {
