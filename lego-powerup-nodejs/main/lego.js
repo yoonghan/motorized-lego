@@ -1,6 +1,7 @@
 import * as PoweredUP from 'node-poweredup'
 import {SLEEPWAIT} from './conf/legoconf'
 import {contextInsertLegoInformation} from './context'
+import {callUrlInJson} from './restcall'
 
 const _convertPortToAlpha = (portNo) => {
   switch(portNo) {
@@ -52,6 +53,15 @@ const _initLegoHub = async (devices, hub) => {
   return motors
 }
 
+const _triggerCallback = async (callbackDetails) => {
+  try {
+    const {url, method, data} =JSON.parse(callbackDetails)
+    await callUrlInJson(url, method, data)
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 const _execCommand = async (command, connectedHub, connectedMotors) => {
   try {
     const action = command.action || ''
@@ -59,6 +69,7 @@ const _execCommand = async (command, connectedHub, connectedMotors) => {
     const position = command.position || 0
     const power = command.power || 50
     const delay = command.delay || 0
+    const callback = command.callback || {}
     //unfortunately can't sync.
     console.log(`act:${action},mtr:${motor},pow:${power}, pos:${position}, delay:${delay}`)
     const selectedMotor = connectedMotors[motor]
@@ -86,6 +97,9 @@ const _execCommand = async (command, connectedHub, connectedMotors) => {
         break
       case 'BRAKE':
         await selectedMotor.device.brake()
+        break
+      case 'CALLBACK':
+        await _triggerCallback(callback)
         break
       case 'CURRENT':
         //Both is lost if it is over!
