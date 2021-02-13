@@ -1,0 +1,178 @@
+<html>
+  <head>
+    <title>Command Centre</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Control Center</h1>
+      <p>
+        Sends command to trigger rest call.
+      </p>
+
+      <div class="pb-4">
+        <div><strong>Control+ Information</strong></div>
+        <em class="panel-body" id="s-info"></em>
+      </div>
+
+      <form onsubmit="return submitForm()">
+        <div class="form-floating pb-2">
+          <select class="form-select" id="s-command" aria-label="Select Command" onchange="chooseCommand()">
+            <option value="ROTATE">ROTATE</option>
+            <option value="ANGLE">ANGLE</option>
+            <option value="SMARTRESET">SMARTRESET</option>
+            <option value="RESET">RESET</option>
+            <option value="POWER">POWER</option>
+            <option value="WAIT">WAIT</option>
+            <option value="BRAKE">BRAKE</option>
+            <option value="CALLBACK">CALLBACK</option>
+          </select>
+          <label for="floatingSelect">Select a command</label>
+        </div>
+        <div class="form-floating pb-2">
+          <select class="form-select" id="s-motor" aria-label="Select Motor">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+          </select>
+          <label for="floatingSelect">Select a motor</label>
+        </div>
+        <div class="form-floating pb-2">
+          <select class="form-select" id="s-power" aria-label="Select Speed/Power">
+            <option value="-100">-100</option>
+            <option value="-90">-90</option>
+            <option value="-80">-80</option>
+            <option value="-70">-70</option>
+            <option value="-60">-60</option>
+            <option value="-50">-50</option>
+            <option value="-40">-40</option>
+            <option value="-30">-30</option>
+            <option value="-20">-20</option>
+            <option value="-10">-10</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+            <option value="50">50</option>
+            <option value="60">60</option>
+            <option value="70">70</option>
+            <option value="80">80</option>
+            <option value="90">90</option>
+            <option value="100">100</option>
+          </select>
+          <label for="floatingSelect">Select a speed/power</label>
+        </div>
+        <div class="form-floating pb-2">
+          <select class="form-select" id="s-degree" aria-label="Select Degree" >
+            <option value="2160">2160</option>
+            <option value="1800">1800</option>
+            <option value="1440">1440</option>
+            <option value="1080">1080</option>
+            <option value="720">720</option>
+            <option value="360">360</option>
+            <option value="270">270</option>
+            <option value="180">180</option>
+            <option value="90">90</option>
+            <option value="0">1</option>
+          </select>
+          <label for="floatingSelect">Select a degree</label>
+        </div>
+        <div class="form-floating pb-2">
+          <select class="form-select" id="s-angle" aria-label="Select Angle" disabled>
+            <option value="360">180</option>
+            <option value="270">90</option>
+            <option value="180">0</option>
+            <option value="90">-90</option>
+            <option value="0">-180</option>
+          </select>
+          <label for="floatingSelect">Select a angle</label>
+        </div>
+        <div class="form-floating pb-2">
+          <input type="number" class="form-control" id="s-delay" placeholder="Delay in milisecond" value="1000" disabled>
+          <label for="floatingInputValue">Delay in miliseconds</label>
+        </div>
+        <div class="form-floating pb-2">
+          <input type="text" class="form-control" id="s-callback" placeholder="Callback must have url" value='{"url":"http://localhost:3001/api/motors", "method": "GET", "data": ""}' disabled>
+          <label for="floatingInputValue">Callback</label>
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset</button>
+        </div>
+      </form>
+    </div>
+    <script>
+      (function(){
+        const elem = document.getElementById('s-info')
+        fetch('http://localhost:3001/api/motors')
+          .then(response => response.json())
+          .then(data => {
+            elem.innerText = JSON.stringify(data)
+          });
+      })()
+
+      function chooseCommand() {
+        const sAngle = document.getElementById('s-angle')
+        const sDegree = document.getElementById('s-degree')
+        const sCallback = document.getElementById('s-callback')
+        const sDelay = document.getElementById('s-delay')
+        sAngle.disabled = true
+        sDegree.disabled = true
+        sCallback.disabled = true
+        sDelay.disabled = true
+
+        const value = document.getElementById('s-command').value
+        switch(value) {
+          case "ROTATE":
+            sDegree.disabled = false
+            break
+          case "ANGLE":
+            sAngle.disabled = false
+            break
+          case "CALLBACK":
+            sCallback.disabled = false
+            break
+          case "WAIT":
+            sDelay.disabled = false
+            break
+        }
+      }
+
+      function submitForm() {
+        const sCommand = document.getElementById('s-command')
+        const sMotor = document.getElementById('s-motor')
+        const sAngle = document.getElementById('s-angle')
+        const sDegree = document.getElementById('s-degree')
+        const sPower = document.getElementById('s-power')
+        const sDelay = document.getElementById('s-delay')
+        const sCallback = document.getElementById('s-callback')
+
+        fetch('http://localhost:3001/api/motors/trigger', {
+          method: 'post',
+          body: JSON.stringify(
+            {
+                "action": sCommand.value,
+                "motor": sMotor.value,
+                "position": sAngle.disabled? sDegree.value: sAngle.value,
+                "power": sPower.value,
+                "delay": sDelay.value,
+                "callback": sCallback.value.trim()
+            }
+          ),
+          headers: {'Content-Type': 'application/json'}
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('sent')
+        });
+        return false
+      }
+
+      function resetForm() {
+        window.location.reload()
+      }
+    </script>
+  </body>
+</html>

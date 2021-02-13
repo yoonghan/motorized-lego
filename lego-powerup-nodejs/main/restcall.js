@@ -12,5 +12,6 @@ export const callUrlInJson = async (url, method, data) => {
   }
 
   const response = await fetch(url, fetchBody);
-  await response.json();
+  const reply = await response.json();
+  console.log('callback', reply)
 }

@@ -5,11 +5,12 @@ const app = express();
 const serverHost = process.env.HOST || 'localhost'
 const serverPort = process.env.PORT || 3001
 
+app.use(express.static('public'))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  return res.send('Received a GET HTTP method');
+  return res.redirect(301, '/commandcenter.html')
 });
 
 app.get('/api/motors', (req, res) => {
@@ -21,7 +22,7 @@ app.get('/api/motors', (req, res) => {
 });
 
 app.post('/api/motors/trigger/complete', (req, res) => {
-  console.log("Received:",req.body)
+  //console.log("Received:",JSON.stringify(req.body))
   return res.status(204).send()
 });
 
