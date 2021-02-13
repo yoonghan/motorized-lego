@@ -1,3 +1,7 @@
+/**
+Test on motors only.
+**/
+
 const PoweredUP = require("node-poweredup");
 
 const poweredUP = new PoweredUP.PoweredUP();
@@ -33,8 +37,8 @@ poweredUP.on("discover", async (hub) => {
    });
 
    await motorA.rotateByDegrees(720, 50)
-   
-/** Test Rotate [S] 
+
+/** Test Rotate [S]
    while(true) {
      //Reset only look for closest, rotate cannot have negative
      console.log("Reset")
@@ -50,7 +54,7 @@ poweredUP.on("discover", async (hub) => {
    }
 /** Test Rotate [E] **/
 
-/** Test Angle [S] 
+/** Test Angle [S]
    while(true) {
      //Reset only look for closest, rotate cannot have negative
      console.log("Reset")
