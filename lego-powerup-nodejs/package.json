@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node -r esm index.js",
+    "start": "PORT=3001 node -r esm index.js",
     "test": "node src/test/test.js"
   },
   "dependencies": {
