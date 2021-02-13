@@ -19,12 +19,15 @@ Setup motors.js to configure connectable motors.
 
 ## Tiggers
 
-Method | uri | Description
-GET | /api/motors | Get available motors. Status == initializing means lego hub is not connected.
-POST | /api/motors/trigger | { "action":"ROTATE", "position": 180, "motor": "A", "power": 20, "delay": 1000}
+| Method | uri | Description |
+| ----- | ----- | ----- |
+| GET | /api/motors | Get available motors. Status == initializing means lego hub is not connected. |
+| POST | /api/motors/trigger | { "action":"ROTATE", "position": 180, "motor": "A", "power": 20, "delay": 1000} |
 
 ## Motor types.
 Motors are based on, https://github.com/nathankellenicki/node-poweredup/blob/master/src/consts.ts
+
+```
 UNKNOWN = 0,
 SIMPLE_MEDIUM_LINEAR_MOTOR = 1,
 TRAIN_MOTOR = 2,
@@ -62,3 +65,4 @@ MARIO_BARCODE_SENSOR = 73,
 MARIO_PANTS_SENSOR = 74,
 TECHNIC_MEDIUM_ANGULAR_MOTOR_GREY = 75, // Technic Control+
 TECHNIC_LARGE_ANGULAR_MOTOR_GREY = 76, // Technic Control+
+```
