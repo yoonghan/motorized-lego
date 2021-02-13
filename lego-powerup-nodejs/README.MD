@@ -1,5 +1,13 @@
 # Using Javascript to control lego Control +
 
+## Execution
+
+1. Run *npm run start*
+2. Browse (suggest Chrome, Firefox, Safari) to http://localhost:3001, make sure Inspect
+3. Turn on bluetooth
+4. Turn on Lego Control +
+5. Call commands from here.
+
 ## For testing
 node -r esm test/testHub - very basic bluetooth connection
 node -r esm test/testHub - able to report motors connected
